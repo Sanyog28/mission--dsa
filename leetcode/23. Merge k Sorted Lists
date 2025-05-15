@@ -1,0 +1,32 @@
+from typing import List, Optional
+import heapq
+
+# Definition for singly-linked list.
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+        
+    # For printing the list (optional, for debugging)
+    def __repr__(self):
+        return f"{self.val} -> {self.next}"
+
+class Solution:
+    def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
+        # Custom comparator for the heap using (val, index, node) to avoid comparison issues
+        heap = []
+        for i, node in enumerate(lists):
+            if node:
+                heapq.heappush(heap, (node.val, i, node))  # Include index to avoid tie errors
+
+        dummy = ListNode(0)
+        current = dummy
+
+        while heap:
+            val, i, node = heapq.heappop(heap)
+            current.next = node
+            current = current.next
+            if node.next:
+                heapq.heappush(heap, (node.next.val, i, node.next))
+
+        return dummy.next
