@@ -1,0 +1,46 @@
+def is_prime(n):
+    if n < 2:
+        return False
+    for i in range(2, int(math.sqrt(n)) + 1):
+        if n % i == 0:
+            return False
+    return True
+
+def generate_primes(q):
+    primes = []
+    num = 2
+    while len(primes) < q:
+        if is_prime(num):
+            primes.append(num)
+        num += 1
+    return primes
+
+def waiter(number, q):
+    primes = generate_primes(q)
+    answer = []
+
+    for i in range(q):
+        prime = primes[i]
+        A = []
+        B = []
+
+        # Simulate current round
+        while number:
+            plate = number.pop()
+            if plate % prime == 0:
+                A.append(plate)
+            else:
+                B.append(plate)
+
+        # Append all from A to result (in pop order)
+        while A:
+            answer.append(A.pop())
+
+        # Prepare for next iteration
+        number = B
+
+    # Append the remaining plates (from last B)
+    while number:
+        answer.append(number.pop())
+
+    return answer
