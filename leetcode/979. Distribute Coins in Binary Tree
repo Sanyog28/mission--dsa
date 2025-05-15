@@ -1,0 +1,25 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+class Solution:
+    def distributeCoins(self, root: Optional[TreeNode]) -> int:
+        self.moves = 0
+        
+        def postOrder(node):
+            if not node:
+                return 0
+            leftExcess = postOrder(node.left)
+            rightExcess = postOrder(node.right)
+            
+            # Moves are abs excess from left and right subtrees
+            self.moves += abs(leftExcess) + abs(rightExcess)
+            
+            # Current node excess coins
+            return node.val + leftExcess + rightExcess - 1
+        
+        postOrder(root)
+        return self.moves
