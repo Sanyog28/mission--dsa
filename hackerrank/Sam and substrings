@@ -1,0 +1,39 @@
+#!/bin/python3
+
+import math
+import os
+import random
+import re
+import sys
+
+#
+# Complete the 'substrings' function below.
+#
+# The function is expected to return an INTEGER.
+# The function accepts STRING n as parameter.
+#
+
+def substrings(n):
+    MOD = 10**9 + 7
+    total_sum = 0
+    prev = 0
+
+    for i in range(len(n)):
+        num = int(n[i])
+        curr = (prev * 10 + num * (i + 1)) % MOD
+        total_sum = (total_sum + curr) % MOD
+        prev = curr
+
+    return total_sum
+
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    n = input()
+
+    result = substrings(n)
+
+    fptr.write(str(result) + '\n')
+
+    fptr.close()
