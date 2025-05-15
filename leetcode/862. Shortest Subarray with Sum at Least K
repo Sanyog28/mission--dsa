@@ -1,0 +1,25 @@
+
+class Solution:
+    def shortestSubarray(self, nums: List[int], k: int) -> int:
+        n = len(nums)
+        prefix_sums = [0] * (n + 1)
+
+        # Compute prefix sums
+        for i in range(n):
+            prefix_sums[i + 1] = prefix_sums[i] + nums[i]
+
+        result = n + 1
+        dq = deque()
+
+        for i in range(n + 1):
+            # Check if we can shorten the subarray from the left
+            while dq and prefix_sums[i] - prefix_sums[dq[0]] >= k:
+                result = min(result, i - dq.popleft())
+
+            # Maintain monotonic increasing deque
+            while dq and prefix_sums[i] <= prefix_sums[dq[-1]]:
+                dq.pop()
+
+            dq.append(i)
+
+        return result if result <= n else -1
