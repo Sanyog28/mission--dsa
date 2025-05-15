@@ -1,0 +1,19 @@
+def truckTour(petrolpumps):
+    start = 0
+    tank = 0
+    total_deficit = 0
+
+    for i in range(len(petrolpumps)):
+        petrol, distance = petrolpumps[i]
+        tank += petrol - distance
+
+        if tank < 0:
+            # Cannot reach the next station, start from i+1
+            start = i + 1
+            total_deficit += tank
+            tank = 0
+
+    if tank + total_deficit >= 0:
+        return start
+    else:
+        return -1  # Just in case no valid start exists (not expected per problem constraints)
