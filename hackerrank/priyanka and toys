@@ -1,0 +1,14 @@
+def toys(w):
+    w.sort()
+    containers = 0
+    i = 0
+    n = len(w)
+
+    while i < n:
+        containers += 1
+        min_weight = w[i]
+        # Keep adding toys within the range of min_weight + 4
+        while i < n and w[i] <= min_weight + 4:
+            i += 1
+
+    return containers
