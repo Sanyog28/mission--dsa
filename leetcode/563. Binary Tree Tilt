@@ -1,0 +1,32 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+from typing import Optional
+
+class Solution:
+    def findTilt(self, root: Optional[TreeNode]) -> int:
+        self.total_tilt = 0  # This will store the total tilt of all nodes
+
+        def postorder(node: Optional[TreeNode]) -> int:
+            if not node:
+                return 0  # No value in empty subtree
+
+            # Recursively calculate sum of left and right subtree
+            left_sum = postorder(node.left)
+            right_sum = postorder(node.right)
+
+            # Tilt of current node is the absolute difference
+            node_tilt = abs(left_sum - right_sum)
+
+            # Add this tilt to the running total
+            self.total_tilt += node_tilt
+
+            # Return the total sum of the current subtree
+            return left_sum + right_sum + node.val
+
+        postorder(root)  # Start post-order traversal from root
+        return self.total_tilt
